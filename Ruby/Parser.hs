@@ -4,17 +4,14 @@ module Ruby.Parser
 )
 where
 
-import Text.ParserCombinators.Parsec
+import ApplicativeParsec
 import Ruby.Nodes
 
-stmt = do s <- many1 letter
-          return $ ExprStmt s
+stmt = ExprStmt <$> many1 letter
 
-compstmt = do s <- many1 stmt
-              return $ CompStmt s
+compstmt = CompStmt <$> many1 stmt
 
-program = do cs <- compstmt
-             return $ Program cs
+program = Program <$> compstmt
 
 run :: Show a => Parser a -> String -> IO ()
 run p input
