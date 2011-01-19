@@ -22,6 +22,15 @@ assignment_like_method_identifier = asIdent <$> (constant_identifier <|> local_v
 
 identifier_character = lower <|> upper <|> digit <|> char '_'
 
+-- 8.7.6.3 String literals
+
+string_literal = single_quoted_string
+               <|> double_quoted_string
+
+single_quoted_string = StrLit <$> (char '\'' *> many1 letter <* char '\'')
+
+double_quoted_string = StrLit <$> (char '"' *> many1 letter <* char '"')
+
 -- 10. Program structure
 
 program = Program <$> compstmt
@@ -31,6 +40,7 @@ compstmt = CompStmt <$> many1 stmt
 -- 11. Expressions
 
 expression = keyword_logical_expression
+           <|> string_literal
 
 keyword_logical_expression = NotExpr <$> (string "not" *> sp *> many1 letter)
 
@@ -65,4 +75,4 @@ run p input
 
 parseRuby = run program
 
-parseRuby_ = run program "alias foo bar"
+parseRuby_ = run program "'aaa'"

@@ -1,6 +1,7 @@
 module Ruby.Nodes where
 
 data Expression = NotExpr String
+                | StrLit String
   deriving Show
 
 data Stmt = ExprStmt Expression
