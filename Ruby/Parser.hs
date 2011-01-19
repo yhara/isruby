@@ -8,7 +8,7 @@ import Text.ParserCombinators.Parsec
 import Ruby.Nodes
 
 stmt = do s <- many1 letter
-          return $ Stmt s
+          return $ ExprStmt s
 
 compstmt = do s <- many1 stmt
               return $ CompStmt s

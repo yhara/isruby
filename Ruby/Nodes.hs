@@ -1,6 +1,7 @@
 module Ruby.Nodes where
 
-data Stmt = Stmt String
+data Stmt = ExprStmt String
+          | AliasStmt String String
   deriving Show
 
 data CompStmt = CompStmt [Stmt]
