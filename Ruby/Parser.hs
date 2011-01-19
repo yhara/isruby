@@ -7,19 +7,29 @@ where
 import ApplicativeParsec
 import Ruby.Nodes
 
+-- common
+
 sp = space
+
+-- 10. Program structure
+
+program = Program <$> compstmt
+
+compstmt = CompStmt <$> many1 stmt
+
+-- 11. Expressions
 
 aliasstmt = AliasStmt <$> (string "alias" *> sp *> many1 letter)
                       <*> (sp *> many1 letter)
 
-exprstmt = ExprStmt <$> many1 letter
+-- 12. Statements
 
 stmt = try aliasstmt
      <|> exprstmt
 
-compstmt = CompStmt <$> many1 stmt
+exprstmt = ExprStmt <$> many1 letter
 
-program = Program <$> compstmt
+-- run
 
 run :: Show a => Parser a -> String -> IO ()
 run p input
