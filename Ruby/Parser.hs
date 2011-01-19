@@ -11,6 +11,17 @@ import Ruby.Nodes
 
 sp = space
 
+-- 8. Lexical structure
+
+local_variable_identifier = (:) <$> (lower <|> char '_') <*> many1 identifier_character
+
+constant_identifier = (:) <$> upper <*> many1 identifier_character
+
+assignment_like_method_identifier = asIdent <$> (constant_identifier <|> local_variable_identifier) <* char '='
+  where asIdent str = str ++ "="
+
+identifier_character = lower <|> upper <|> digit <|> char '_'
+
 -- 10. Program structure
 
 program = Program <$> compstmt
@@ -18,6 +29,9 @@ program = Program <$> compstmt
 compstmt = CompStmt <$> many1 stmt
 
 -- 11. Expressions
+
+method_name = local_variable_identifier --todo
+              
 
 aliasstmt = AliasStmt <$> (string "alias" *> sp *> many1 letter)
                       <*> (sp *> many1 letter)
@@ -28,6 +42,11 @@ stmt = try aliasstmt
      <|> exprstmt
 
 exprstmt = ExprStmt <$> many1 letter
+
+-- 13.3 Methods
+
+defined_method_name = try assignment_like_method_identifier
+                    <|> method_name
 
 -- run
 
