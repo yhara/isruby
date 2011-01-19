@@ -26,10 +26,18 @@ identifier_character = lower <|> upper <|> digit <|> char '_'
 
 string_literal = single_quoted_string
                <|> double_quoted_string
+               <|> quoted_non_expanded_literal_string
 
 single_quoted_string = StrLit <$> (char '\'' *> many1 letter <* char '\'')
 
 double_quoted_string = StrLit <$> (char '"' *> many1 letter <* char '"')
+
+quoted_non_expanded_literal_string = do string "%q"
+                                        left <- oneOf "!:/"
+                                        str <- many1 letter
+                                        char left
+                                        return $ StrLit str
+-- { ( [ < 
 
 -- 10. Program structure
 
@@ -75,4 +83,4 @@ run p input
 
 parseRuby = run program
 
-parseRuby_ = run program "'aaa'"
+parseRuby_ = run program "%q!asdf!"
