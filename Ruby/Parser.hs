@@ -7,7 +7,11 @@ where
 import ApplicativeParsec
 import Ruby.Nodes
 
-stmt = ExprStmt <$> many1 letter
+aliasstmt = AliasStmt <$> (string "alias" *> letter) <*> letter
+
+exprstmt = ExprStmt <$> many1 letter
+
+stmt = aliasstmt <|> exprstmt
 
 compstmt = CompStmt <$> many1 stmt
 
@@ -23,4 +27,4 @@ run p input
 
 parseRuby = run program
 
-parseRuby_ = run program "a"
+parseRuby_ = run program "aliasii"
