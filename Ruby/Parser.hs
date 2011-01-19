@@ -9,8 +9,8 @@ import Ruby.Nodes
 
 sp = space
 
-aliasstmt = AliasStmt <$> (string "alias" *> sp *> letter)
-                      <*> (sp *> letter)
+aliasstmt = AliasStmt <$> (string "alias" *> sp *> many1 letter)
+                      <*> (sp *> many1 letter)
 
 exprstmt = ExprStmt <$> many1 letter
 
@@ -31,4 +31,4 @@ run p input
 
 parseRuby = run program
 
-parseRuby_ = run program "aliasi"
+parseRuby_ = run program "alias foo bar"
