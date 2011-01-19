@@ -1,0 +1,5 @@
+ISRuby
+======
+
+will be a Haskell implementation of Draft Ruby Standard.
+(http://www.ipa.go.jp/software/open/ossc/english/ruby/ruby_draft_specification.html )
