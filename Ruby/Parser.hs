@@ -1,11 +1,20 @@
 module Ruby.Parser
-(parseRuby)
+( parseRuby
+, parseRuby_
+)
 where
 
 import Text.ParserCombinators.Parsec
+import Ruby.Nodes
 
-program :: Parser Char
-program = letter
+stmt = do s <- many1 letter
+          return $ Stmt s
+
+compstmt = do s <- many1 stmt
+              return $ CompStmt s
+
+program = do cs <- compstmt
+             return $ Program cs
 
 run :: Show a => Parser a -> String -> IO ()
 run p input
@@ -16,3 +25,5 @@ run p input
             Right x  -> print x
 
 parseRuby = run program
+
+parseRuby_ = run program "a"
