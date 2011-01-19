@@ -30,6 +30,10 @@ compstmt = CompStmt <$> many1 stmt
 
 -- 11. Expressions
 
+expression = keyword_logical_expression
+
+keyword_logical_expression = NotExpr <$> (string "not" *> sp *> many1 letter)
+
 method_name = local_variable_identifier --todo
               
 
@@ -38,10 +42,11 @@ aliasstmt = AliasStmt <$> (string "alias" *> sp *> many1 letter)
 
 -- 12. Statements
 
+stmt :: Parser Stmt
 stmt = try aliasstmt
      <|> exprstmt
 
-exprstmt = ExprStmt <$> many1 letter
+exprstmt = ExprStmt <$> expression
 
 -- 13.3 Methods
 

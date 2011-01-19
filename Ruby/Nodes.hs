@@ -1,6 +1,9 @@
 module Ruby.Nodes where
 
-data Stmt = ExprStmt String
+data Expression = NotExpr String
+  deriving Show
+
+data Stmt = ExprStmt Expression
           | AliasStmt String String
   deriving Show
 
